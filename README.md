@@ -2,7 +2,7 @@
 *Script to install packages and configure a fresh Ubuntu install.*
 
 ### General
-Script has been tested on Ubuntu 19.04
+Script has been tested on Ubuntu 19.04.
 
 
 ### Instructions
