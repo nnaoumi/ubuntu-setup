@@ -7,4 +7,5 @@ Script has been tested on Ubuntu 19.04
 
 ### Instructions
 Change the permissions on the script to 774 in order to be able to execute it.
+
 Execute script and follow the prompt.
