@@ -49,28 +49,46 @@ enableHibernationAfterSleep() {
     sudo chmod 644 /etc/systemd/sleep.conf
 
     #Adding a line to logind.conf
-    echo "HandleLidSwitch=suspend-then-hibernate" >> /etc/systemd/logind.conf
+    sudo cp /etc/systemd/logind.conf ~
+    echo "HandleLidSwitch=suspend-then-hibernate" >> ~/logind.conf
+    sudo rm -f /etc/systemd/logind.conf && sudo mv ~/logind.conf /etc/systemd/logind.conf
     sudo chmod 644 /etc/systemd/logind.conf
 
 }
 
 installPackages() {
-    
-    #tlp saves battery power on laptops. code package is microsoft's vs code.
-    appList=(keepass2 transmission vlc grub-customizer tlp google-chrome-stable code gnome-tweaks ttf-mscorefonts-installer exfat-utils)
 
+    install() {
+    
+    echo ""
+    echo ""
+    echo "Installing $1..."
+    sudo apt-get -y install $1
+    
+    }
+    
     echo ""
     echo ""
     echo "Updating package database..."
     sudo apt-get update
 
-    for app in "${appList[@]}"
-    do
-    echo ""
-    echo ""
-    echo "Installing $app..."
-    sudo apt-get -y install $app
-    done
+    install code
+    install exfat-utils
+    install filelight #disk usage analyzer
+    install google-chrome-stable
+    install grub-customizer
+    install keepass2
+    install libnotify-bin #used to create notifications
+    install tlp #power management for laptops
+    install transmission
+    install ttf-mscorefonts-installer
+    install vlc
+
+    #Ubuntu only
+    #install gnome-tweaks
+
+    #Kubuntu only
+    #install kbackup
 
 }
 
@@ -137,7 +155,14 @@ do
     fi
 
     echo ""
-    echo "Please enter a number to execute the script or enter exit to close the script:"
+    echo ""
+    echo "Please enter one of the following numbers to execute the script, or enter exit to close the script: "
+    echo ""
+    echo "1. Add Google and Microsoft Repositories"
+    echo "2. Install selected packages"
+    echo "3. Change time from UTC to local time to fix time conflict with Windows"
+    echo "4. Reset time to Ubuntu's universal time (UTC)"
+    echo "5. Suspend and hibernate PC after predetermined number of minutes"
     echo ""
     read -p "> " scriptPrompt
 done
